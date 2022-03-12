@@ -1,6 +1,7 @@
 #
 # Generic options and environment settings
 #
+## Use `man zshoptions` for reference
 
 #
 # Changing directories
@@ -26,12 +27,21 @@ setopt PUSHD_SILENT
 # Have pushd without arguments act like `pushd ${HOME}`.
 setopt PUSHD_TO_HOME
 
+# Change directory to a path stored in a variable.
+setopt CDABLE_VARS
+
 #
 # Expansion and globbing
 #
 
 # Treat `#`, `~`, and `^` as patterns for filename globbing.
 setopt EXTENDED_GLOB
+
+# I like to see my dots
+setopt GLOB_DOTS
+
+# Make globbing (filename generation) sensitive to case.
+unsetopt CASE_GLOB
 
 #
 # History
@@ -41,15 +51,11 @@ setopt EXTENDED_GLOB
 if (( ! ${+HISTFILE} )) typeset -g HISTFILE=${ZDOTDIR:-${HOME}}/.zhistory
 
 # The maximum number of events stored internally and saved in the history file.
-# The former is greater than the latter in case user wants HIST_EXPIRE_DUPS_FIRST.
-HISTSIZE=20000
-SAVEHIST=10000
+HISTSIZE=290000
+SAVEHIST=290000
 
 # Don't display duplicates when searching the history.
 setopt HIST_FIND_NO_DUPS
-
-# Don't enter immediate duplicates into the history.
-setopt HIST_IGNORE_DUPS
 
 # Remove commands from the history that begin with a space.
 setopt HIST_IGNORE_SPACE
@@ -60,6 +66,12 @@ setopt HIST_VERIFY
 # Cause all terminals to share the same history 'session'.
 setopt SHARE_HISTORY
 
+# Perform textual history expansion, csh-style, treating the character `!' specially.
+setopt BANG_HIST
+
+# Write to the history file immediately, not when the shell exits.
+setopt INC_APPEND_HISTORY
+
 #
 # Input/output
 #
@@ -69,6 +81,15 @@ setopt INTERACTIVE_COMMENTS
 
 # Disallow `>` to overwrite existing files. Use `>|` or `>!` instead.
 setopt NO_CLOBBER
+
+# Do not exit on end-of-file.  Require the use of exit or logout instead.
+setopt IGNORE_EOF
+
+# Try to correct the spelling of commands.
+setopt CORRECT
+
+# Disable start/stop characters in shell editor.
+unsetopt FLOW_CONTROL
 
 #
 # Job control
@@ -85,3 +106,23 @@ setopt NO_CHECK_JOBS
 
 # Prevent SIGHUP to jobs on shell exit.
 setopt NO_HUP
+
+#
+# Scripts and Functions
+#
+
+# Write to multiple descriptors.
+setopt MULTIOS
+
+
+#
+# My completion preferences
+#
+
+setopt COMPLETE_IN_WORD    # Complete from both ends of a word.
+setopt ALWAYS_TO_END       # Move cursor to the end of a completed word.
+setopt PATH_DIRS           # Perform path search even on command names with slashes.
+setopt AUTO_MENU           # Show completion menu on a successive tab press.
+setopt AUTO_LIST           # Automatically list choices on ambiguous completion.
+setopt AUTO_PARAM_SLASH    # If completed parameter is a directory, add a trailing slash.
+unsetopt MENU_COMPLETE     # Do not autoselect the first completion entry.
