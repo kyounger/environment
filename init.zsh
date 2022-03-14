@@ -47,12 +47,13 @@ unsetopt CASE_GLOB
 # History
 #
 
-# The file to save the history in.
-if (( ! ${+HISTFILE} )) typeset -g HISTFILE=${ZDOTDIR:-${HOME}}/.zhistory
-
 # The maximum number of events stored internally and saved in the history file.
+HISTFILE=${ZDOTDIR:-${HOME}}/.zhistory
 HISTSIZE=290000
 SAVEHIST=290000
+
+# The file to save the history in.
+if (( ! ${+HISTFILE} )) typeset -g HISTFILE=${ZDOTDIR:-${HOME}}/.zhistory
 
 # Don't display duplicates when searching the history.
 setopt HIST_FIND_NO_DUPS
